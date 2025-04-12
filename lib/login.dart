@@ -32,7 +32,6 @@ class _SignInState extends State<SignIn> {
       backgroundColor: Color(0xFFE5F8F4),
       body: Stack(
         children: [
-          // 🔹 Faded Background Illustration
           Positioned.fill(
             child: Opacity(
               opacity: 0.06,
@@ -42,8 +41,6 @@ class _SignInState extends State<SignIn> {
               ),
             ),
           ),
-
-          // 🔹 Floating Circle Decoration
           Positioned(
             top: -80,
             right: -80,
@@ -60,15 +57,12 @@ class _SignInState extends State<SignIn> {
               ),
             ),
           ),
-
-          // 🔹 Main Content
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    // App Icon + Title
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -85,10 +79,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ],
                     ),
-
                     SizedBox(height: 30),
-
-                    // Welcome Back Text
                     Text(
                       'Welcome back!',
                       style: TextStyle(
@@ -97,18 +88,12 @@ class _SignInState extends State<SignIn> {
                         fontFamily: 'Poppins',
                       ),
                     ),
-
                     SizedBox(height: 20),
-
-                    // Mobile Illustration
                     Image.asset(
                       'assets/images/mobile.png',
                       width: 130,
                     ),
-
                     SizedBox(height: 30),
-
-                    // 🔹 Glass Card
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.all(24),
@@ -127,12 +112,11 @@ class _SignInState extends State<SignIn> {
                         children: [
                           buildTextField(
                             controller: emailController,
-                            hint: 'Enter your email',
-                            icon: Icons.email,
+                            hint: 'Enter your email or phone number',
+                            icon: Icons.person,
                           ),
                           SizedBox(height: 20),
                           buildPasswordField(),
-
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
@@ -146,24 +130,34 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                           ),
-
                           SizedBox(height: 25),
-
                           ElevatedButton(
                             onPressed: () {
                               String email = emailController.text.trim();
                               String password = passwordController.text.trim();
 
-                              if (email == 'abc@gmail.com' && password == '1234') {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => SymptomsPage()),
-                                );
+                              bool isEmail = email.contains('@') && email.contains('.');
+                              bool isPhone = RegExp(r'^\d{10}$').hasMatch(email);
+
+                              if (isEmail || isPhone) {
+                                if (email == 'abc@gmail.com' && password == '1234') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => SymptomsPage()),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Invalid credentials!'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Invalid credentials!'),
-                                    backgroundColor: Colors.red,
+                                    content: Text('Enter a valid email or phone number'),
+                                    backgroundColor: Colors.orange,
                                   ),
                                 );
                               }
@@ -185,9 +179,7 @@ class _SignInState extends State<SignIn> {
                         ],
                       ),
                     ),
-
                     SizedBox(height: 30),
-
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
