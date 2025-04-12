@@ -23,6 +23,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
@@ -35,7 +36,6 @@ class _SignUpState extends State<SignUp> {
       backgroundColor: Color(0xFFE5F8F4),
       body: Stack(
         children: [
-          // 🔹 Faded Background Image
           Positioned.fill(
             child: Opacity(
               opacity: 0.06,
@@ -45,8 +45,6 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
           ),
-
-          // 🔹 Floating Circle Decoration
           Positioned(
             top: -80,
             right: -80,
@@ -63,14 +61,11 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
           ),
-
-          // 🔹 Main Content
           SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
-                  // App Icon + Title
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -87,10 +82,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ],
                   ),
-
                   SizedBox(height: 30),
-
-                  // Doctor Image
                   Container(
                     height: 150,
                     width: 200,
@@ -102,9 +94,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-
                   SizedBox(height: 30),
-
                   Text(
                     "Register with us!",
                     style: TextStyle(
@@ -113,9 +103,7 @@ class _SignUpState extends State<SignUp> {
                       fontFamily: 'Poppins',
                     ),
                   ),
-
                   SizedBox(height: 30),
-
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(24),
@@ -145,14 +133,20 @@ class _SignUpState extends State<SignUp> {
                         ),
                         SizedBox(height: 15),
                         customTextField(
+                          controller: phoneController,
+                          hint: "Enter your phone number",
+                          icon: Icons.phone,
+                        ),
+                        SizedBox(height: 15),
+                        customTextField(
                           controller: passwordController,
                           hint: "Enter your password",
                           icon: Icons.lock,
                           obscure: _obscurePassword,
                           suffixIcon: IconButton(
-                            icon: Icon(_obscurePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility),
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            ),
                             onPressed: () {
                               setState(() {
                                 _obscurePassword = !_obscurePassword;
@@ -167,9 +161,9 @@ class _SignUpState extends State<SignUp> {
                           icon: Icons.lock_outline,
                           obscure: _obscureConfirm,
                           suffixIcon: IconButton(
-                            icon: Icon(_obscureConfirm
-                                ? Icons.visibility_off
-                                : Icons.visibility),
+                            icon: Icon(
+                              _obscureConfirm ? Icons.visibility_off : Icons.visibility,
+                            ),
                             onPressed: () {
                               setState(() {
                                 _obscureConfirm = !_obscureConfirm;
@@ -178,12 +172,12 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         SizedBox(height: 25),
-
-                        // Sign Up Button
                         ElevatedButton(
                           onPressed: () {
                             print("Name: ${nameController.text}");
                             print("Email: ${emailController.text}");
+                            print("Phone: ${phoneController.text}");
+                            print("Password: ${passwordController.text}");
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFF01A28C),
@@ -206,9 +200,7 @@ class _SignUpState extends State<SignUp> {
                       ],
                     ),
                   ),
-
                   SizedBox(height: 30),
-
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -271,6 +263,7 @@ class _SignUpState extends State<SignUp> {
       child: TextField(
         controller: controller,
         obscureText: obscure,
+        keyboardType: icon == Icons.phone ? TextInputType.phone : TextInputType.text,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Color(0xFF01A28C)),
           suffixIcon: suffixIcon,
