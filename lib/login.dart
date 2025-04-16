@@ -141,7 +141,7 @@ class _SignInState extends State<SignIn> {
 
                               if (isEmail || isPhone) {
                                 if (email == 'abc@gmail.com' && password == '1234') {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => SymptomsPage()),
                                   );

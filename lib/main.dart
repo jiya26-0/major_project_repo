@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:major_project/splash.dart';
+import 'result.dart';
 
 import 'home.dart';
 
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return SafeArea(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: Splash(),
       ),
     );
   }

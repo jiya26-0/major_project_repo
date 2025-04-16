@@ -15,15 +15,50 @@ class _SymptomsPageState extends State<SymptomsPage> {
     'Nausea',
     'Shortness of breath',
     'Sore throat',
+    'Chest Pain',
+    'Body Ache',
+    'Vomiting',
+    'Diarrhea',
   ];
 
   final Map<String, bool> selectedSymptoms = {};
+  String precautions = "";
 
   @override
   void initState() {
     super.initState();
     for (var symptom in symptoms) {
       selectedSymptoms[symptom] = false;
+    }
+  }
+
+  void evaluateSymptoms() {
+    List<String> selected = selectedSymptoms.entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key)
+        .toList();
+
+    if (selected.contains('Fever') && selected.contains('Cough')) {
+      precautions =
+      "You may have flu or viral infection.\nPrecautions: Stay hydrated, rest well, and consult a doctor if symptoms persist.";
+    } else if (selected.contains('Headache') && selected.contains('Fatigue')) {
+      precautions =
+      "You might be experiencing stress or migraine.\nPrecautions: Take rest, stay away from screens, drink water.";
+    } else if (selected.contains('Shortness of breath') &&
+        selected.contains('Chest Pain')) {
+      precautions =
+      "Possible respiratory issue or heart-related condition.\nPrecautions: Seek immediate medical attention.";
+    } else if (selected.contains('Nausea') &&
+        selected.contains('Vomiting') &&
+        selected.contains('Diarrhea')) {
+      precautions =
+      "You may have food poisoning or stomach infection.\nPrecautions: Drink ORS, avoid solid food, and consult doctor.";
+    } else if (selected.contains('Body Ache') &&
+        selected.contains('Fever')) {
+      precautions =
+      "Possible viral fever or flu.\nPrecautions: Rest, take paracetamol, and drink plenty of water.";
+    } else {
+      precautions = "Please consult a doctor for accurate diagnosis.";
     }
   }
 
@@ -34,7 +69,6 @@ class _SymptomsPageState extends State<SymptomsPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            // 🌄 Background Medical Image
             Positioned.fill(
               child: Opacity(
                 opacity: 0.08,
@@ -44,8 +78,6 @@ class _SymptomsPageState extends State<SymptomsPage> {
                 ),
               ),
             ),
-
-            // 🌿 Background Circles
             Positioned(
               left: 280,
               top: -55,
@@ -70,8 +102,6 @@ class _SymptomsPageState extends State<SymptomsPage> {
                 ),
               ),
             ),
-
-            // 🌿 Main Content
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 130, 20, 30),
@@ -106,8 +136,6 @@ class _SymptomsPageState extends State<SymptomsPage> {
                       ),
                     ),
                     SizedBox(height: 30),
-
-                    // Symptom Cards
                     Column(
                       children: symptoms.map((symptom) {
                         return Container(
@@ -144,15 +172,15 @@ class _SymptomsPageState extends State<SymptomsPage> {
                       }).toList(),
                     ),
                     SizedBox(height: 40),
-
-                    // Submit Button
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
+                          evaluateSymptoms();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => result()),
+                              builder: (context) => ResultPage(precautions),
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
